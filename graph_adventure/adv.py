@@ -37,7 +37,7 @@ class Queue:
         return len(self.queue)
 
 # stack to keep track of path back
-class Stack():
+class Stack:
     def __init__(self):
         self.stack = []
 
@@ -53,18 +53,42 @@ class Stack():
     def size(self):
         return len(self.stack)
 
+class Graph:
+    def __init__(self):
+        self.vertices = {}
+
+    def add_vertex(self, vertex):
+        if vertex not in self.vertices:
+            self.vertices[vertex] = set()
+
+    def add_edge(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("can not make edge")
+
 # FILL THIS IN
 traversalPath = []
+
 
 # player.travel(direction, showRooms = False)
 # traversalPath stores [ 'n', 's', 'e', 'w']
 # visited to hold list of visited nodes
-def wander(player, traversalPath, visited):
-    pass
-    # find exit directions
-    # pick a direction and go, add to traversal path 
-    # add picked direction to backtrack stack 
-    # store nodes that have unvisited exits
+# room has getExits(), getRoomInDirection('n'), getCoords()
+def wander(player):
+    visited = set()
+    stack = Stack()
+    q = Queue()
+    # create a new dictionary to hold rooms and their exits starting with starting room
+    roomsWandered[player.currentRoom.id] = {}
+
+
+
+
+    # while the length of the visited rooms is less than the length of the room graph 
+        # find exit directions, mark directions to node
+        # pick a direction and go, add to traversal path, add direction to backtrack stack 
+        # store nodes that have unvisited exits
 
 # TRAVERSAL TEST
 visited_rooms = set()
