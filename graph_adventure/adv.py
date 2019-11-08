@@ -19,10 +19,52 @@ world.loadGraph(roomGraph)
 world.printRooms()
 player = Player("Name", world.startingRoom)
 
+# queue to run BFS? 
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+# stack to keep track of path back
+class Stack():
+    def __init__(self):
+        self.stack = []
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+
+    def size(self):
+        return len(self.stack)
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+traversalPath = []
 
+# player.travel(direction, showRooms = False)
+# traversalPath stores [ 'n', 's', 'e', 'w']
+# visited to hold list of visited nodes
+def wander(player, traversalPath, visited):
+    pass
+    # find exit directions
+    # pick a direction and go, add to traversal path 
+    # add picked direction to backtrack stack 
+    # store nodes that have unvisited exits
 
 # TRAVERSAL TEST
 visited_rooms = set()
