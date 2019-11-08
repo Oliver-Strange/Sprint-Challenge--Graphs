@@ -104,7 +104,7 @@ def wander(player):
             visited.add(current_room)
         # check for ? in directions 
         # starting at north  
-        if "n" in current_room.getExits() and roomsWandered[current_room.id]["n"] is "?":
+        if "n" in player.currentRoom.getExits() and roomsWandered[player.currentRoom.name]["n"] is "?":
             # start a new path from backtrack stack
             new_path = list(backtrackPath)
             # mark current room as previousRoom
@@ -114,7 +114,7 @@ def wander(player):
             # define new room as player.currentRoom
             new_room = player.currentRoom
             # update roomsWandered previous room direction from ? to "n"
-            roomsWandered[current_room.id]["n"] = new_room.name
+            roomsWandered[current_room.name]["n"] = new_room.name
             # check if the new room is in visited
             if new_room not in visited:
                 # add new room to roomsWandered with empty directions
@@ -135,6 +135,7 @@ def wander(player):
             I think I can do the same thing for each direction and have a clause for if it is 
             a dead end with no "?"
             '''
+        
         elif "s" in current_room.getExits() and roomsWandered[current_room.id]["s"] is "?":
             # start a new path from backtrack stack
             new_path = list(backtrackPath)
@@ -219,6 +220,91 @@ def wander(player):
             # add the new path to the backtrack stack
             stack.push(new_path)
 
+        # when there are no "?", aka dead end
+        elif "?" not in roomsWandered[current_room.id].values():
+            # run a bfs to find shortest route to unexplored node
+            # needs a list of checked nodes
+            checkedNodes = []
+            # need to store the path of the bfs
+            path = []
+            # start the queue at current position
+            q.enqueue([player.currentRoom])
+            # while there is a queue
+            while q.size() > 0:
+                # establish shortest path from dequeued room
+                shortPath = q.dequeue()
+                vertex = shortPath[-1]
+                # check if vertex id is checkedNodes
+                if vertex.id not in checkedNodes:
+                    # add it 
+                    checkedNodes.append(vertex.id)
+                    # look for "?" to find unexplored path
+                    if "?" in roomsWandered[vertex.id].values():
+                        # add bsf path to traversalPath
+                        traversalPath.extend(path)
+                        # get the backtrackPath
+                        path_copy = list(backtrackPath)
+                        # add current vertex/node to the path
+                        path_copy.append(vertex)
+                        # add the path to the backtrack stack
+                        stack.push(path_copy)
+                        # clear the checked nodes 
+                        checkedNodes = []
+                        # clear the queue
+                        while q.size() > 0:
+                            q.dequeue()
+
+                    # check other directions to see if they are in checkedNodes
+                    elif "s" in vertex.getExits() and vertex.s_to.name not in checkedNodes:
+                        # update path with potential new path
+                        potentialPath = list(shortPath)
+                        # travel that direction
+                        player.travel("s", False)
+                        # add traveled direction to potential path
+                        potentialPath.append(player.currentRoom)
+                        # add direction to path
+                        path.append("s")
+                        # enqueue the potential path 
+                        q.enqueue(potentialPath)
+
+                    # check other directions to see if they are in checkedNodes
+                    elif "e" in vertex.getExits() and vertex.e_to.name not in checkedNodes:
+                        # update path with potential new path
+                        potentialPath = list(shortPath)
+                        # travel that direction
+                        player.travel("e", False)
+                        # add traveled direction to potential path
+                        potentialPath.append(player.currentRoom)
+                        # add direction to path
+                        path.append("e")
+                        # enqueue the potential path 
+                        q.enqueue(potentialPath)
+                    
+                    elif "w" in vertex.getExits() and vertex.w_to.name not in checkedNodes:
+                        # update path with potential new path
+                        potentialPath = list(shortPath)
+                        # travel that direction
+                        player.travel("w", False)
+                        # add traveled direction to potential path
+                        potentialPath.append(player.currentRoom)
+                        # add direction to path
+                        path.append("w")
+                        # enqueue the potential path 
+                        q.enqueue(potentialPath)
+                    
+                    elif "n" in vertex.getExits() and vertex.n_to.name not in checkedNodes:
+                        # update path with potential new path
+                        potentialPath = list(shortPath)
+                        # travel that direction
+                        player.travel("n", False)
+                        # add traveled direction to potential path
+                        potentialPath.append(player.currentRoom)
+                        # add direction to path
+                        path.append("n")
+                        # enqueue the potential path 
+                        q.enqueue(potentialPath)
+
+wander(player)
 
 
     # while the length of the visited rooms is less than the length of the room graph 
