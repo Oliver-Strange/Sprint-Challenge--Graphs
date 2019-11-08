@@ -135,8 +135,89 @@ def wander(player):
             I think I can do the same thing for each direction and have a clause for if it is 
             a dead end with no "?"
             '''
-            
+        elif "s" in current_room.getExits() and roomsWandered[current_room.id]["s"] is "?":
+            # start a new path from backtrack stack
+            new_path = list(backtrackPath)
+            # mark current room as previousRoom
+            previousRoom = current_room
+            # travel in that direction
+            player.travel("s", False)
+            # define new room as player.currentRoom
+            new_room = player.currentRoom
+            # update roomsWandered previous room direction from ? to "n"
+            roomsWandered[current_room.id]["s"] = new_room.name
+            # check if the new room is in visited
+            if new_room not in visited:
+                # add new room to roomsWandered with empty directions
+                roomsWandered[new_room.id] = {}
+                # do the same for loop checking directions
+                for i in range(0, len(player.currentRoom.getExits())):
+                    # add ? to the directions not traveled
+                    roomsWandered[player.currentRoom.id][player.currentRoom.getExits()[i]] = "?"
+                # can add the previous room exit direction as "s"
+                roomsWandered[new_room.id]["n"] = previousRoom.name
+            # add the new room to path
+            new_path.append(player.currentRoom)
+            # add direction to traversalPath
+            traversalPath.append("s")
+            # add the new path to the backtrack stack
+            stack.push(new_path)
 
+        elif "e" in current_room.getExits() and roomsWandered[current_room.id]["e"] is "?":
+            # start a new path from backtrack stack
+            new_path = list(backtrackPath)
+            # mark current room as previousRoom
+            previousRoom = current_room
+            # travel in that direction
+            player.travel("e", False)
+            # define new room as player.currentRoom
+            new_room = player.currentRoom
+            # update roomsWandered previous room direction from ? to "n"
+            roomsWandered[current_room.id]["e"] = new_room.name
+            # check if the new room is in visited
+            if new_room not in visited:
+                # add new room to roomsWandered with empty directions
+                roomsWandered[new_room.id] = {}
+                # do the same for loop checking directions
+                for i in range(0, len(player.currentRoom.getExits())):
+                    # add ? to the directions not traveled
+                    roomsWandered[player.currentRoom.id][player.currentRoom.getExits()[i]] = "?"
+                # can add the previous room exit direction as "s"
+                roomsWandered[new_room.id]["w"] = previousRoom.name
+            # add the new room to path
+            new_path.append(player.currentRoom)
+            # add direction to traversalPath
+            traversalPath.append("e")
+            # add the new path to the backtrack stack
+            stack.push(new_path)
+
+        elif "w" in current_room.getExits() and roomsWandered[current_room.id]["w"] is "?":
+            # start a new path from backtrack stack
+            new_path = list(backtrackPath)
+            # mark current room as previousRoom
+            previousRoom = current_room
+            # travel in that direction
+            player.travel("w", False)
+            # define new room as player.currentRoom
+            new_room = player.currentRoom
+            # update roomsWandered previous room direction from ? to "n"
+            roomsWandered[current_room.id]["w"] = new_room.name
+            # check if the new room is in visited
+            if new_room not in visited:
+                # add new room to roomsWandered with empty directions
+                roomsWandered[new_room.id] = {}
+                # do the same for loop checking directions
+                for i in range(0, len(player.currentRoom.getExits())):
+                    # add ? to the directions not traveled
+                    roomsWandered[player.currentRoom.id][player.currentRoom.getExits()[i]] = "?"
+                # can add the previous room exit direction as "s"
+                roomsWandered[new_room.id]["e"] = previousRoom.name
+            # add the new room to path
+            new_path.append(player.currentRoom)
+            # add direction to traversalPath
+            traversalPath.append("w")
+            # add the new path to the backtrack stack
+            stack.push(new_path)
 
 
 
